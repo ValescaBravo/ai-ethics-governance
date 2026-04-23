@@ -10,36 +10,23 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
-
-
-.max-w-6xl {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem; /* Esto evita que en móvil el texto toque los bordes */
-}
-
-
-h1 { font-size: clamp(2rem, 8vw, 3.5rem); line-height: 1.1; }
-h2 { font-size: clamp(1.5rem, 5vw, 2rem); }
-
-
-.section-card {
-  background: white;
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  border-left: 8px solid #6366f1; /* Color Indigo para AI Ethics */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
+    body { font-family: 'Inter', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .glass-card { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.95); }
+    .hover-lift { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    .slide-in { animation: slideIn 0.4s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .glow { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
   </style>
 </head>
 <body class="bg-gray-50">
   <!-- Hero Section -->
   <div class="gradient-bg relative overflow-hidden">
     <div class="absolute inset-0 bg-black opacity-20"></div>
-    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-28 text-center text-white">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center text-white">
       <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-white/70 hover:text-white mb-6">← Back to Portfolio</a>
       <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-sm font-medium mb-6">
         <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
