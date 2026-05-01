@@ -213,16 +213,16 @@
         {isActive && (<div className="slide-in text-left"><div className="bg-teal-900/20 border border-teal-500/40 rounded-xl p-4 mb-4"><p className="text-gray-200 mb-3">{step.desc}</p><div className="space-y-3"><div><h5 className="font-semibold text-teal-200 mb-2">Key Actions:</h5><ul className="space-y-1">{step.practice.map((item, idx) => (<li key={idx} className="text-sm text-gray-200 flex items-start"><span className="w-1.5 h-1.5 bg-teal-400 rounded-full mt-2 mr-2"></span>{item}</li>))}</ul></div><div><h5 className="font-semibold text-teal-200 mb-2">Pro Tips:</h5><ul className="space-y-1">{step.tips.map((tip, idx) => (<li key={idx} className="text-sm text-gray-200 flex items-start"><span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 mr-2"></span>{tip}</li>))}</ul></div></div></div></div>)}</div></div>
     );
 
-    // --- RISK MATRIX FIXED: Light background, visible grid, high contrast ---
+    // Risk Matrix with light background high contrast
     const RiskMatrix = () => {
       const [selectedRisk, setSelectedRisk] = useState(null);
       const risks = [
-        { id: 1, name: 'Bias in Hiring', impact: 'High', likelihood: 'Medium', x: 60, y: 30, color: 'bg-red-600', labelColor: 'bg-red-700' },
-        { id: 2, name: 'IP Infringement', impact: 'Medium', likelihood: 'High', x: 78, y: 52, color: 'bg-orange-500', labelColor: 'bg-orange-600' },
-        { id: 3, name: 'Privacy Breach', impact: 'High', likelihood: 'Low', x: 28, y: 22, color: 'bg-amber-600', labelColor: 'bg-amber-700' },
-        { id: 4, name: 'Energy Waste', impact: 'Low', likelihood: 'High', x: 82, y: 78, color: 'bg-teal-500', labelColor: 'bg-teal-600' },
-        { id: 5, name: 'Model Collapse', impact: 'Medium', likelihood: 'Medium', x: 55, y: 55, color: 'bg-indigo-500', labelColor: 'bg-indigo-600' },
-        { id: 6, name: 'Misinformation', impact: 'High', likelihood: 'High', x: 75, y: 25, color: 'bg-rose-600', labelColor: 'bg-rose-700' }
+        { id: 1, name: 'Bias in Hiring', impact: 'High', likelihood: 'Medium', x: 60, y: 30, color: 'bg-red-600' },
+        { id: 2, name: 'IP Infringement', impact: 'Medium', likelihood: 'High', x: 78, y: 52, color: 'bg-orange-500' },
+        { id: 3, name: 'Privacy Breach', impact: 'High', likelihood: 'Low', x: 28, y: 22, color: 'bg-amber-600' },
+        { id: 4, name: 'Energy Waste', impact: 'Low', likelihood: 'High', x: 82, y: 78, color: 'bg-teal-500' },
+        { id: 5, name: 'Model Collapse', impact: 'Medium', likelihood: 'Medium', x: 55, y: 55, color: 'bg-indigo-500' },
+        { id: 6, name: 'Misinformation', impact: 'High', likelihood: 'High', x: 75, y: 25, color: 'bg-rose-600' }
       ];
 
       return (
@@ -230,9 +230,8 @@
           <h3 className="font-bold text-2xl mb-4 text-gray-900 serif-heading">📊 Interactive Risk Assessment Matrix</h3>
           <p className="text-gray-600 mb-4 font-mono text-sm">Position: Impact (vertical) vs Likelihood (horizontal). Click on any dot to reveal risk details.</p>
           
-          {/* Matrix container with light gradient background and visible grid */}
           <div className="relative bg-gradient-to-br from-green-50 via-yellow-50 to-red-100 rounded-xl border-2 border-gray-300 shadow-inner" style={{ height: '380px' }}>
-            {/* Grid lines for better readability */}
+            {/* Grid lines */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-1/2 left-0 w-full h-px bg-gray-400/50"></div>
               <div className="absolute left-1/2 top-0 w-px h-full bg-gray-400/50"></div>
@@ -268,7 +267,6 @@
               </div>
             ))}
             
-            {/* quadrant hints */}
             <div className="absolute bottom-1 left-1 text-[10px] font-mono text-gray-500 bg-white/70 px-1 rounded">Low Impact / Low Likelihood</div>
             <div className="absolute bottom-1 right-1 text-[10px] font-mono text-gray-500 bg-white/70 px-1 rounded">Low Impact / High Likelihood</div>
             <div className="absolute top-1 left-1 text-[10px] font-mono text-gray-500 bg-white/70 px-1 rounded">High Impact / Low Likelihood</div>
@@ -337,7 +335,7 @@
         <div className="space-y-12 pb-20">
           <ProgressBar currentStep={currentStep} totalSteps={5} />
 
-          {/* Step 1: Foundation - with fixed Risk Matrix */}
+          {/* Step 1: Foundation */}
           <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-3xl font-bold text-white serif-heading">Step 1: The Challenge</h2>
@@ -389,12 +387,6 @@
               <div><h3 className="text-xl font-semibold mb-4 text-teal-200">Quick Start Checklist</h3><div className="space-y-3"><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Establish AI Ethics Committee</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Conduct bias audit on existing models</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Implement model documentation standards</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Set up continuous monitoring systems</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Train team on ethics frameworks</span></label></div></div>
               <div><h3 className="text-xl font-semibold mb-4 text-teal-200">Resources & Tools</h3><div className="space-y-3"><button onClick={() => { const template = `AI ETHICS CHECKLIST\n\n✅ Bias audit\n✅ PIA completed`; const blob = new Blob([template], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'AI_Ethics_Template.txt'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 font-mono">📋 Download Ethics Assessment Template</button><button onClick={() => { const csv = `Risk,Impact,Likelihood\nBias,High,Medium`; const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Risk_Matrix.csv'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 font-mono">📊 Download Risk Matrix Worksheet</button><a href="https://github.com/tensorflow/fairness-indicators" target="_blank" rel="noopener noreferrer" className="block p-3 bg-white/10 rounded-lg hover:bg-white/20 font-mono">🛠 TensorFlow Fairness Indicators</a></div></div>
             </div>
-          </section>
-
-          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
-            <h2 className="text-3xl font-bold mb-6 text-white serif-heading">Self-Assessment Quiz</h2>
-            <p className="text-gray-300 mb-6">Test your understanding and get personalized recommendations.</p>
-            <div className="bg-gradient-to-r from-teal-950/50 to-[#1d085e]/30 rounded-xl p-6 text-center border border-teal-500/30"><div className="text-6xl mb-4">🎯</div><h3 className="text-xl font-bold mb-2 text-teal-200">Assessment Coming Soon</h3><p className="text-gray-300 mb-4">Interactive quiz to evaluate your organization's AI ethics maturity</p><button className="btn-primary-brand inline-block">Notify Me When Ready</button></div>
           </section>
         </div>
       );
