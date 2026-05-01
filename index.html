@@ -5,24 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Generative AI Ethics & Governance — Interactive Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- BRAND TYPOGRAPHY: DM Sans + DM Serif Display + DM Mono (replaces Inter) -->
+  <!-- BRAND TYPOGRAPHY: DM Sans + DM Serif Display + DM Mono -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    /* ----- BRAND VISUAL SYSTEM - No purple gradients, no Inter ----- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
       font-family: 'DM Sans', sans-serif;
-      background-color: #09071a;  /* navy dark background like Power BI / Excel lab style */
+      background-color: #09071a;
       color: #eef2ff;
       font-weight: 300;
       scroll-behavior: smooth;
     }
     
-    /* brand variables */
     :root {
       --navy: #1d085e;
       --teal: #13d6c1;
@@ -32,13 +30,11 @@
       --border-dim: #1e1e38;
     }
     
-    /* custom scrollbar */
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: #0d0b1e; border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--teal-dark); }
     
-    /* brand glass cards (replaces old .glass-card) */
     .brand-card {
       background: #0d0b1e;
       border: 1px solid #1e1e38;
@@ -52,7 +48,6 @@
       transform: translateY(-2px);
     }
     
-    /* hero gradient with grid pattern (brand signature) */
     .hero-brand {
       background: linear-gradient(135deg, #0d0430, #1d085e, #0d3b38);
       position: relative;
@@ -67,7 +62,6 @@
       pointer-events: none;
     }
     
-    /* button primary style (DM Mono) */
     .btn-primary-brand {
       background-color: #1d085e;
       font-family: 'DM Mono', monospace;
@@ -83,7 +77,6 @@
       box-shadow: 0 4px 12px rgba(19,214,193,0.3);
     }
     
-    /* badge/chip brand */
     .brand-chip {
       font-family: 'DM Mono', monospace;
       background: rgba(19,214,193,0.12);
@@ -96,12 +89,10 @@
       backdrop-filter: blur(2px);
     }
     
-    /* headings with serif */
     .serif-heading {
       font-family: 'DM Serif Display', serif;
     }
     
-    /* hover lift effect but with teal glow */
     .hover-lift-brand {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -122,28 +113,15 @@
     
     .slide-in { animation: slideIn 0.4s ease-out; }
     @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    
-    /* remove any legacy .glass-card or gradient stuff, but we'll override inline */
-    .glass-card {
-      background: #0d0b1e !important;
-      border: 1px solid #1e1e38 !important;
-      backdrop-filter: none;
-    }
-    .gradient-bg {
-      background: linear-gradient(135deg, #0d0430, #1d085e, #0d3b38) !important;
-    }
   </style>
 </head>
 <body class="bg-[#09071a] font-['DM_Sans'] antialiased">
 
-  <!-- Hero Section (brand) -->
+  <!-- Hero Section -->
   <div class="hero-brand relative overflow-hidden">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10">
       <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors mb-6 font-mono tracking-wide">
         ← Back to Portfolio
-      </a>
-      <a href="https://valescabravo.github.io/lab" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors mb-6 font-mono tracking-wide">
-        ← Back to the Lab
       </a>
       <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm text-sm font-mono mb-6 border border-teal-400/40">
         <span class="w-2 h-2 bg-teal-400 rounded-full mr-2 animate-pulse-slow"></span>
@@ -175,9 +153,8 @@
   </footer>
 
   <script type="text/babel">
-    const { useState, useEffect } = React;
+    const { useState } = React;
 
-    // Branded progress bar (teal)
     const ProgressBar = ({ currentStep, totalSteps }) => (
       <div className="w-full bg-[#1e1e38] rounded-full h-2 mb-8">
         <div 
@@ -187,10 +164,8 @@
       </div>
     );
 
-    // Pillar Card (branded, replaces old PillarCard)
     const PillarCard = ({ pillar, isActive, onClick }) => {
       const [view, setView] = useState('scenario');
-      
       return (
         <div className={`bg-[#0d0b1e] border rounded-2xl p-6 hover-lift-brand cursor-pointer transition-all duration-300 ${
           isActive ? 'ring-2 ring-teal-500 glow-brand' : 'border-[#1e1e38]'
@@ -209,59 +184,22 @@
               {isActive && <div className="w-2 h-2 bg-white rounded-full"></div>}
             </div>
           </div>
-
           {isActive && (
             <div className="slide-in">
               <div className="flex space-x-2 mb-4">
                 {['scenario', 'practice', 'tools'].map(tab => (
-                  <button
-                    key={tab}
-                    onClick={(e) => { e.stopPropagation(); setView(tab); }}
+                  <button key={tab} onClick={(e) => { e.stopPropagation(); setView(tab); }}
                     className={`px-4 py-2 rounded-lg text-sm font-mono transition-all ${
-                      view === tab 
-                        ? 'bg-[#1d085e] text-teal-300 border border-teal-500' 
-                        : 'bg-[#14122c] text-gray-300 border border-[#2a2a4a] hover:border-teal-500'
-                    }`}
-                  >
-                    {tab === 'scenario' ? '📝 Scenario' : 
-                     tab === 'practice' ? '✅ Best Practices' : '🛠 Tools'}
+                      view === tab ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-300 border border-[#2a2a4a] hover:border-teal-500'
+                    }`}>
+                    {tab === 'scenario' ? '📝 Scenario' : tab === 'practice' ? '✅ Best Practices' : '🛠 Tools'}
                   </button>
                 ))}
               </div>
-
               <div className="bg-[#1d085e]/20 border border-teal-500/40 rounded-xl p-4">
-                {view === 'scenario' && (
-                  <div>
-                    <h4 className="font-semibold text-teal-200 mb-2 font-mono">Real-World Challenge</h4>
-                    <p className="text-gray-200">{pillar.scenario}</p>
-                  </div>
-                )}
-                {view === 'practice' && (
-                  <div>
-                    <h4 className="font-semibold text-teal-200 mb-3">Implementation Guidelines</h4>
-                    <ul className="space-y-2">
-                      {pillar.practice.map((item, idx) => (
-                        <li key={idx} className="flex items-start space-x-2">
-                          <span className="w-2 h-2 bg-teal-500 rounded-full mt-2 flex-shrink-0"></span>
-                          <span className="text-gray-200">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {view === 'tools' && (
-                  <div>
-                    <h4 className="font-semibold text-teal-200 mb-3">Recommended Solutions</h4>
-                    <ul className="space-y-2">
-                      {pillar.tools.map((tool, idx) => (
-                        <li key={idx} className="flex items-start space-x-2">
-                          <span className="w-2 h-2 bg-teal-400 rounded-full mt-2 flex-shrink-0"></span>
-                          <span className="text-gray-200">{tool}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                {view === 'scenario' && <div><h4 className="font-semibold text-teal-200 mb-2 font-mono">Real-World Challenge</h4><p className="text-gray-200">{pillar.scenario}</p></div>}
+                {view === 'practice' && <div><h4 className="font-semibold text-teal-200 mb-3">Implementation Guidelines</h4><ul className="space-y-2">{pillar.practice.map((item, idx) => (<li key={idx} className="flex items-start space-x-2"><span className="w-2 h-2 bg-teal-500 rounded-full mt-2"></span><span className="text-gray-200">{item}</span></li>))}</ul></div>}
+                {view === 'tools' && <div><h4 className="font-semibold text-teal-200 mb-3">Recommended Solutions</h4><ul className="space-y-2">{pillar.tools.map((tool, idx) => (<li key={idx} className="flex items-start space-x-2"><span className="w-2 h-2 bg-teal-400 rounded-full mt-2"></span><span className="text-gray-200">{tool}</span></li>))}</ul></div>}
               </div>
             </div>
           )}
@@ -269,80 +207,74 @@
       );
     };
 
-    // Framework Step (brand)
     const FrameworkStep = ({ step, isActive, onClick }) => (
-      <div 
-        className={`bg-[#0d0b1e] border rounded-2xl p-6 hover-lift-brand cursor-pointer transition-all duration-300 ${
-          isActive ? 'ring-2 ring-teal-500 glow-brand' : 'border-[#1e1e38]'
-        }`}
-        onClick={onClick}
-      >
-        <div className="text-center">
-          <div className="text-4xl mb-3">{step.emoji}</div>
-          <h3 className="font-bold text-lg mb-2 text-white serif-heading">{step.title}</h3>
-          <p className="text-gray-300 text-sm mb-4">{step.subtitle}</p>
-          
-          {isActive && (
-            <div className="slide-in text-left">
-              <div className="bg-teal-900/20 border border-teal-500/40 rounded-xl p-4 mb-4">
-                <p className="text-gray-200 mb-3">{step.desc}</p>
-                
-                <div className="space-y-3">
-                  <div>
-                    <h5 className="font-semibold text-teal-200 mb-2">Key Actions:</h5>
-                    <ul className="space-y-1">
-                      {step.practice.map((item, idx) => (
-                        <li key={idx} className="text-sm text-gray-200 flex items-start">
-                          <span className="w-1.5 h-1.5 bg-teal-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h5 className="font-semibold text-teal-200 mb-2">Pro Tips:</h5>
-                    <ul className="space-y-1">
-                      {step.tips.map((tip, idx) => (
-                        <li key={idx} className="text-sm text-gray-200 flex items-start">
-                          <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
-                          {tip}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      <div className={`bg-[#0d0b1e] border rounded-2xl p-6 hover-lift-brand cursor-pointer transition-all duration-300 ${isActive ? 'ring-2 ring-teal-500 glow-brand' : 'border-[#1e1e38]'}`} onClick={onClick}>
+        <div className="text-center"><div className="text-4xl mb-3">{step.emoji}</div><h3 className="font-bold text-lg mb-2 text-white serif-heading">{step.title}</h3><p className="text-gray-300 text-sm mb-4">{step.subtitle}</p>
+        {isActive && (<div className="slide-in text-left"><div className="bg-teal-900/20 border border-teal-500/40 rounded-xl p-4 mb-4"><p className="text-gray-200 mb-3">{step.desc}</p><div className="space-y-3"><div><h5 className="font-semibold text-teal-200 mb-2">Key Actions:</h5><ul className="space-y-1">{step.practice.map((item, idx) => (<li key={idx} className="text-sm text-gray-200 flex items-start"><span className="w-1.5 h-1.5 bg-teal-400 rounded-full mt-2 mr-2"></span>{item}</li>))}</ul></div><div><h5 className="font-semibold text-teal-200 mb-2">Pro Tips:</h5><ul className="space-y-1">{step.tips.map((tip, idx) => (<li key={idx} className="text-sm text-gray-200 flex items-start"><span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 mr-2"></span>{tip}</li>))}</ul></div></div></div></div>)}</div></div>
     );
 
-    // Risk Matrix (brand colors)
+    // --- RISK MATRIX FIXED: Light background, visible grid, high contrast ---
     const RiskMatrix = () => {
       const [selectedRisk, setSelectedRisk] = useState(null);
       const risks = [
-        { id: 1, name: 'Bias in Hiring', impact: 'High', likelihood: 'Medium', x: 60, y: 30, color: 'bg-teal-600' },
-        { id: 2, name: 'IP Infringement', impact: 'Medium', likelihood: 'High', x: 80, y: 50, color: 'bg-teal-500' },
-        { id: 3, name: 'Privacy Breach', impact: 'High', likelihood: 'Low', x: 30, y: 20, color: 'bg-[#1d085e]' },
-        { id: 4, name: 'Energy Waste', impact: 'Low', likelihood: 'High', x: 85, y: 80, color: 'bg-emerald-700' },
+        { id: 1, name: 'Bias in Hiring', impact: 'High', likelihood: 'Medium', x: 60, y: 30, color: 'bg-red-600', labelColor: 'bg-red-700' },
+        { id: 2, name: 'IP Infringement', impact: 'Medium', likelihood: 'High', x: 78, y: 52, color: 'bg-orange-500', labelColor: 'bg-orange-600' },
+        { id: 3, name: 'Privacy Breach', impact: 'High', likelihood: 'Low', x: 28, y: 22, color: 'bg-amber-600', labelColor: 'bg-amber-700' },
+        { id: 4, name: 'Energy Waste', impact: 'Low', likelihood: 'High', x: 82, y: 78, color: 'bg-teal-500', labelColor: 'bg-teal-600' },
+        { id: 5, name: 'Model Collapse', impact: 'Medium', likelihood: 'Medium', x: 55, y: 55, color: 'bg-indigo-500', labelColor: 'bg-indigo-600' },
+        { id: 6, name: 'Misinformation', impact: 'High', likelihood: 'High', x: 75, y: 25, color: 'bg-rose-600', labelColor: 'bg-rose-700' }
       ];
+
       return (
-        <div className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-6">
-          <h3 className="font-bold text-xl mb-4 text-white serif-heading">Interactive Risk Assessment Matrix</h3>
-          <div className="relative bg-gradient-to-tr from-green-950 via-yellow-950 to-red-950 rounded-xl p-4 h-80 border border-[#2a2a4a]">
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm font-mono text-teal-200">High Impact</div>
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-mono text-gray-300">Low Impact</div>
-            <div className="absolute left-2 top-1/2 transform -translate-y-1/2 -rotate-90 text-sm font-mono text-gray-300">Low Likelihood</div>
-            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 rotate-90 text-sm font-mono text-gray-300">High Likelihood</div>
+        <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-200">
+          <h3 className="font-bold text-2xl mb-4 text-gray-900 serif-heading">📊 Interactive Risk Assessment Matrix</h3>
+          <p className="text-gray-600 mb-4 font-mono text-sm">Position: Impact (vertical) vs Likelihood (horizontal). Click on any dot to reveal risk details.</p>
+          
+          {/* Matrix container with light gradient background and visible grid */}
+          <div className="relative bg-gradient-to-br from-green-50 via-yellow-50 to-red-100 rounded-xl border-2 border-gray-300 shadow-inner" style={{ height: '380px' }}>
+            {/* Grid lines for better readability */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-1/2 left-0 w-full h-px bg-gray-400/50"></div>
+              <div className="absolute left-1/2 top-0 w-px h-full bg-gray-400/50"></div>
+              <div className="absolute top-1/4 left-0 w-full h-px bg-gray-300/40"></div>
+              <div className="absolute top-3/4 left-0 w-full h-px bg-gray-300/40"></div>
+              <div className="absolute left-1/4 top-0 w-px h-full bg-gray-300/40"></div>
+              <div className="absolute left-3/4 top-0 w-px h-full bg-gray-300/40"></div>
+            </div>
+            
+            {/* Labels */}
+            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-red-700 bg-white/80 px-3 py-0.5 rounded-full shadow-sm z-10">▲ High Impact</div>
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-bold text-gray-600 bg-white/80 px-3 py-0.5 rounded-full shadow-sm z-10">▼ Low Impact</div>
+            <div className="absolute left-2 top-1/2 transform -translate-y-1/2 -rotate-90 text-sm font-bold text-gray-600 bg-white/80 px-3 py-0.5 rounded-full shadow-sm whitespace-nowrap z-10">◀ Low Likelihood</div>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 rotate-90 text-sm font-bold text-orange-700 bg-white/80 px-3 py-0.5 rounded-full shadow-sm whitespace-nowrap z-10">High Likelihood ▶</div>
+            
+            {/* Risk dots */}
             {risks.map(risk => (
-              <div key={risk.id} className={`absolute w-4 h-4 ${risk.color} rounded-full cursor-pointer hover:scale-150 transition-all duration-200 shadow-lg`} style={{ left: `${risk.x}%`, top: `${risk.y}%` }} onClick={() => setSelectedRisk(selectedRisk === risk.id ? null : risk.id)}>
-                {selectedRisk === risk.id && (<div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-teal-200 px-3 py-1 rounded-lg text-xs whitespace-nowrap z-10 border border-teal-500">{risk.name}</div>)}
+              <div key={risk.id}>
+                <div
+                  className={`absolute w-5 h-5 ${risk.color} rounded-full cursor-pointer hover:scale-150 transition-all duration-200 shadow-lg ring-2 ring-white z-20`}
+                  style={{ left: `calc(${risk.x}% - 10px)`, top: `calc(${risk.y}% - 10px)` }}
+                  onClick={(e) => { e.stopPropagation(); setSelectedRisk(selectedRisk === risk.id ? null : risk.id); }}
+                >
+                  <div className="absolute inset-0 animate-pulse rounded-full opacity-50 bg-white"></div>
+                </div>
+                {selectedRisk === risk.id && (
+                  <div className="absolute z-30 bg-gray-900 text-white px-4 py-2 rounded-xl shadow-xl text-sm font-mono whitespace-nowrap border-l-4 border-teal-400" 
+                       style={{ left: `calc(${risk.x}% + 15px)`, top: `calc(${risk.y}% - 20px)`, transform: 'translateX(0)' }}>
+                    <strong className="text-teal-300">{risk.name}</strong><br />
+                    Impact: {risk.impact} | Likelihood: {risk.likelihood}
+                  </div>
+                )}
               </div>
             ))}
+            
+            {/* quadrant hints */}
+            <div className="absolute bottom-1 left-1 text-[10px] font-mono text-gray-500 bg-white/70 px-1 rounded">Low Impact / Low Likelihood</div>
+            <div className="absolute bottom-1 right-1 text-[10px] font-mono text-gray-500 bg-white/70 px-1 rounded">Low Impact / High Likelihood</div>
+            <div className="absolute top-1 left-1 text-[10px] font-mono text-gray-500 bg-white/70 px-1 rounded">High Impact / Low Likelihood</div>
+            <div className="absolute top-1 right-1 text-[10px] font-mono text-gray-500 bg-white/70 px-1 rounded">High Impact / High Likelihood</div>
           </div>
-          <p className="text-sm text-gray-400 mt-3 font-mono">Click the dots to see risk details. Position shows Impact (Y-axis) vs Likelihood (X-axis).</p>
+          <p className="text-xs text-gray-500 mt-4 text-center font-mono">💡 Tip: Dots positioned by risk level — top-right = highest priority (High Impact + High Likelihood).</p>
         </div>
       );
     };
@@ -376,48 +308,48 @@
       ];
 
       const frameworkSteps = [
-        { k: 'org', title: 'Organization', emoji: '👥', subtitle: 'Governance Structure', desc: 'Establish clear accountability and decision-making structures for AI ethics.',
-          practice: [ 'Form AI Ethics Committee', 'Assign AI ethics champions', 'Escalation paths for concerns', 'Regular ethics review cycles' ],
-          tips: [ 'Include external advisors', 'Rotate membership', 'Document decisions', 'Tie ethics to leadership KPIs' ] },
-        { k: 'process', title: 'Processes', emoji: '🔄', subtitle: 'Lifecycle Management', desc: 'Embed ethics throughout the AI development lifecycle.',
-          practice: [ 'Standardize AI intake with ethics risk assessment', 'Stage gates with ethics review', 'Monitoring and incident response', 'Feedback loops' ],
-          tips: [ 'Align with existing SDLC', 'Automate compliance', 'Regular audits', 'Train teams' ] },
-        { k: 'technology', title: 'Technology', emoji: '⚙️', subtitle: 'Technical Infrastructure', desc: 'Deploy tools enabling ethical AI at scale.',
-          practice: [ 'Model registries with ethics metadata', 'Automated bias monitoring', 'Data lineage systems', 'Ethics metrics dashboards' ],
+        { k: 'org', title: 'Organization', emoji: '👥', subtitle: 'Governance Structure', desc: 'Establish clear accountability and decision-making structures.',
+          practice: [ 'Form AI Ethics Committee', 'Assign AI ethics champions', 'Escalation paths', 'Regular ethics reviews' ],
+          tips: [ 'Include external advisors', 'Rotate membership', 'Document decisions', 'Tie ethics to KPIs' ] },
+        { k: 'process', title: 'Processes', emoji: '🔄', subtitle: 'Lifecycle Management', desc: 'Embed ethics throughout the AI lifecycle.',
+          practice: [ 'Standardize AI intake with risk assessment', 'Stage gates', 'Monitoring and incident response', 'Feedback loops' ],
+          tips: [ 'Align with SDLC', 'Automate compliance', 'Regular audits', 'Train teams' ] },
+        { k: 'technology', title: 'Technology', emoji: '⚙️', subtitle: 'Technical Infrastructure', desc: 'Deploy tools for ethical AI at scale.',
+          practice: [ 'Model registries with ethics metadata', 'Automated bias monitoring', 'Data lineage systems', 'Ethics dashboards' ],
           tips: [ 'Integrate with MLOps', 'Auto-documentation', 'Real-time alerts', 'Regular tool updates' ] }
       ];
 
       const outcomes = [
-        { icon: '🤝', title: 'Build Trust', desc: 'Increase stakeholder confidence and user adoption' },
+        { icon: '🤝', title: 'Build Trust', desc: 'Increase stakeholder confidence' },
         { icon: '⚡', title: 'Accelerate Innovation', desc: 'Clear guidelines enable faster development' },
-        { icon: '🔒', title: 'Mitigate Risk', desc: 'Prevent costly incidents and compliance issues' },
-        { icon: '🌍', title: 'Ensure Compliance', desc: 'Meet emerging regulatory requirements' }
+        { icon: '🔒', title: 'Mitigate Risk', desc: 'Prevent costly incidents' },
+        { icon: '🌍', title: 'Ensure Compliance', desc: 'Meet regulatory requirements' }
       ];
 
       const regulations = [
-        { title: 'EU AI Act (Reg. 2024/1689)', desc: 'Risk-based regulation. Prohibitions active since Feb 2025. GPAI rules since Aug 2025. High-risk system rules apply 2 August 2026.', link: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng', status: 'In Force', color: 'bg-teal-600' },
-        { title: 'Ireland: AI Bill 2026', desc: 'General Scheme published Feb 2026. Creates Oifig Intleachta Shaorga na hÉireann as central coordinator, operational by 2 Aug 2026.', link: 'https://enterprise.gov.ie/en/legislation/general-scheme-of-the-regulation-of-artificial-intelligence-bill-2026.html', status: 'In Preparation', color: 'bg-[#1d085e]' },
-        { title: 'NIST AI RMF', desc: 'Framework for managing AI risks across organizations — globally recognized best practice.', link: 'https://www.nist.gov/itl/ai-risk-management-framework', status: 'Framework', color: 'bg-teal-500' },
-        { title: 'Irish DPC — GDPR & AI', desc: 'Lead Supervisory Authority for Meta, Google, LinkedIn. Active in AI investigations and guidance on LLMs.', link: 'https://www.dataprotection.ie/en', status: 'Enforcement', color: 'bg-emerald-700' }
+        { title: 'EU AI Act (Reg. 2024/1689)', desc: 'Risk-based regulation. Prohibitions active since Feb 2025. High-risk rules apply 2 August 2026.', link: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng', status: 'In Force', color: 'bg-teal-600' },
+        { title: 'Ireland: AI Bill 2026', desc: 'Creates Oifig Intleachta Shaorga na hÉireann as central coordinator, operational by 2 Aug 2026.', link: 'https://enterprise.gov.ie/en/legislation/general-scheme-of-the-regulation-of-artificial-intelligence-bill-2026.html', status: 'In Preparation', color: 'bg-[#1d085e]' },
+        { title: 'NIST AI RMF', desc: 'Globally recognized framework for managing AI risks.', link: 'https://www.nist.gov/itl/ai-risk-management-framework', status: 'Framework', color: 'bg-teal-500' },
+        { title: 'Irish DPC — GDPR & AI', desc: 'Lead authority for Meta, Google, LinkedIn. Active in AI investigations.', link: 'https://www.dataprotection.ie/en', status: 'Enforcement', color: 'bg-emerald-700' }
       ];
 
       return (
         <div className="space-y-12 pb-20">
           <ProgressBar currentStep={currentStep} totalSteps={5} />
 
-          {/* Step 1: Foundation */}
-          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl transition-all">
+          {/* Step 1: Foundation - with fixed Risk Matrix */}
+          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-3xl font-bold text-white serif-heading">Step 1: The Challenge</h2>
-              <button onClick={() => setCurrentStep(Math.max(1, currentStep))} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 1 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Start Here</button>
+              <button onClick={() => setCurrentStep(1)} className="px-4 py-2 rounded-lg font-mono bg-[#1d085e] text-teal-300 border border-teal-500">Start Here</button>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="grid lg:grid-cols-2 gap-10 items-start">
               <div>
                 <p className="text-lg text-gray-200 mb-6">Generative AI delivers unprecedented value but introduces complex ethical challenges. Organizations need systematic approaches to balance <strong className="text-teal-300">innovation velocity</strong> with <strong className="text-teal-300">responsible deployment</strong>.</p>
                 <div className="space-y-4">
-                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-red-800/40 rounded-full flex items-center justify-center"><span className="text-red-400">⚠️</span></div><span className="text-gray-200">Bias can perpetuate discrimination</span></div>
-                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-amber-800/40 rounded-full flex items-center justify-center"><span className="text-amber-400">🔓</span></div><span className="text-gray-200">Privacy violations risk regulatory action</span></div>
-                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-teal-800/40 rounded-full flex items-center justify-center"><span className="text-teal-400">⚡</span></div><span className="text-gray-200">Environmental impact affects sustainability goals</span></div>
+                  <div className="flex items-center space-x-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30"><div className="w-8 h-8 bg-red-800/40 rounded-full flex items-center justify-center">⚠️</div><span className="text-gray-200">Bias can perpetuate discrimination</span></div>
+                  <div className="flex items-center space-x-3 p-3 bg-amber-900/20 rounded-lg border border-amber-500/30"><div className="w-8 h-8 bg-amber-800/40 rounded-full flex items-center justify-center">🔓</div><span className="text-gray-200">Privacy violations risk regulatory action</span></div>
+                  <div className="flex items-center space-x-3 p-3 bg-teal-900/20 rounded-lg border border-teal-500/30"><div className="w-8 h-8 bg-teal-800/40 rounded-full flex items-center justify-center">⚡</div><span className="text-gray-200">Environmental impact affects sustainability</span></div>
                 </div>
               </div>
               <RiskMatrix />
@@ -426,69 +358,43 @@
 
           {/* Step 2: Core Pillars */}
           <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-white serif-heading">Step 2: The Five Pillars</h2>
-              <button onClick={() => setCurrentStep(2)} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 2 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Explore Pillars</button>
-            </div>
+            <div className="flex items-center justify-between mb-8"><h2 className="text-3xl font-bold text-white serif-heading">Step 2: The Five Pillars</h2><button onClick={() => setCurrentStep(2)} className="px-4 py-2 rounded-lg font-mono bg-[#1d085e] text-teal-300 border border-teal-500">Explore Pillars</button></div>
             <p className="text-gray-300 mb-8">Click each pillar to explore real-world scenarios, best practices, and practical tools.</p>
-            <div className="grid gap-6">
-              {pillars.map(pillar => (<PillarCard key={pillar.k} pillar={pillar} isActive={activePillar === pillar.k} onClick={() => { setActivePillar(activePillar === pillar.k ? null : pillar.k); if (currentStep < 2) setCurrentStep(2); }} />))}
-            </div>
+            <div className="grid gap-6">{pillars.map(pillar => (<PillarCard key={pillar.k} pillar={pillar} isActive={activePillar === pillar.k} onClick={() => { setActivePillar(activePillar === pillar.k ? null : pillar.k); if (currentStep < 2) setCurrentStep(2); }} />))}</div>
           </section>
 
-          {/* Step 3: Implementation Framework */}
+          {/* Step 3: Framework */}
           <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-white serif-heading">Step 3: Implementation Framework</h2>
-              <button onClick={() => setCurrentStep(3)} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 3 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Build Framework</button>
-            </div>
+            <div className="flex items-center justify-between mb-8"><h2 className="text-3xl font-bold text-white serif-heading">Step 3: Implementation Framework</h2><button onClick={() => setCurrentStep(3)} className="px-4 py-2 rounded-lg font-mono bg-[#1d085e] text-teal-300 border border-teal-500">Build Framework</button></div>
             <p className="text-gray-300 mb-8">Three foundational elements for successful AI ethics governance.</p>
-            <div className="grid md:grid-cols-3 gap-6">
-              {frameworkSteps.map(step => (<FrameworkStep key={step.k} step={step} isActive={activeFramework === step.k} onClick={() => { setActiveFramework(activeFramework === step.k ? null : step.k); if (currentStep < 3) setCurrentStep(3); }} />))}
-            </div>
+            <div className="grid md:grid-cols-3 gap-6">{frameworkSteps.map(step => (<FrameworkStep key={step.k} step={step} isActive={activeFramework === step.k} onClick={() => { setActiveFramework(activeFramework === step.k ? null : step.k); if (currentStep < 3) setCurrentStep(3); }} />))}</div>
           </section>
 
-          {/* Step 4: Regulatory Landscape */}
+          {/* Step 4: Regulations */}
           <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-white serif-heading">Step 4: Regulatory Landscape 2026</h2>
-              <button onClick={() => setCurrentStep(4)} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 4 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Review Regulations</button>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {regulations.map((reg, idx) => (<div key={idx} className="border border-[#1e1e38] rounded-xl p-6 hover-lift-brand bg-[#0a0820]"><div className="flex items-center justify-between mb-3"><h3 className="font-bold text-lg text-white">{reg.title}</h3><span className={`px-3 py-1 rounded-full text-white text-xs font-mono ${reg.color}`}>{reg.status}</span></div><p className="text-gray-300 mb-4">{reg.desc}</p><a href={reg.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-teal-400 hover:text-teal-300 font-mono">Read More →</a></div>))}
-            </div>
+            <div className="flex items-center justify-between mb-8"><h2 className="text-3xl font-bold text-white serif-heading">Step 4: Regulatory Landscape 2026</h2><button onClick={() => setCurrentStep(4)} className="px-4 py-2 rounded-lg font-mono bg-[#1d085e] text-teal-300 border border-teal-500">Review Regulations</button></div>
+            <div className="grid md:grid-cols-2 gap-6">{regulations.map((reg, idx) => (<div key={idx} className="border border-[#1e1e38] rounded-xl p-6 hover-lift-brand bg-[#0a0820]"><div className="flex items-center justify-between mb-3"><h3 className="font-bold text-lg text-white">{reg.title}</h3><span className={`px-3 py-1 rounded-full text-white text-xs font-mono ${reg.color}`}>{reg.status}</span></div><p className="text-gray-300 mb-4">{reg.desc}</p><a href={reg.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-teal-400 hover:text-teal-300 font-mono">Read More →</a></div>))}</div>
           </section>
 
-          {/* Step 5: Expected Outcomes */}
+          {/* Step 5: Outcomes */}
           <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-white serif-heading">Step 5: Expected Outcomes</h2>
-              <button onClick={() => setCurrentStep(5)} className="px-4 py-2 rounded-lg font-mono bg-[#1d085e] text-teal-300 border border-teal-500">See Results</button>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {outcomes.map((outcome, idx) => (<div key={idx} className="text-center p-6 border border-[#1e1e38] rounded-xl hover-lift-brand bg-[#0a0820]"><div className="text-4xl mb-3">{outcome.icon}</div><h3 className="font-bold text-lg mb-2 text-white">{outcome.title}</h3><p className="text-gray-300 text-sm">{outcome.desc}</p></div>))}
-            </div>
+            <div className="flex items-center justify-between mb-8"><h2 className="text-3xl font-bold text-white serif-heading">Step 5: Expected Outcomes</h2><button onClick={() => setCurrentStep(5)} className="px-4 py-2 rounded-lg font-mono bg-[#1d085e] text-teal-300 border border-teal-500">See Results</button></div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">{outcomes.map((outcome, idx) => (<div key={idx} className="text-center p-6 border border-[#1e1e38] rounded-xl hover-lift-brand bg-[#0a0820]"><div className="text-4xl mb-3">{outcome.icon}</div><h3 className="font-bold text-lg mb-2 text-white">{outcome.title}</h3><p className="text-gray-300 text-sm">{outcome.desc}</p></div>))}</div>
           </section>
 
-          {/* Action Items & Next Steps (brand) */}
+          {/* Action Items */}
           <section className="bg-gradient-to-r from-[#1d085e] to-[#0d3b38] rounded-2xl p-8 text-white border border-teal-500/40 shadow-2xl">
             <h2 className="text-3xl font-bold mb-6 serif-heading">Ready to Implement?</h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div><h3 className="text-xl font-semibold mb-4 text-teal-200">Quick Start Checklist</h3><div className="space-y-3"><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Establish AI Ethics Committee</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Conduct bias audit on existing models</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Implement model documentation standards</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Set up continuous monitoring systems</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Train team on ethics frameworks</span></label></div></div>
-              <div><h3 className="text-xl font-semibold mb-4 text-teal-200">Resources & Tools</h3><div className="space-y-3"><button onClick={() => { const template = `AI ETHICS ASSESSMENT CHECKLIST\n\n✅ BIAS & FAIRNESS\n- [ ] Dataset diversity analysis completed\n- [ ] Bias testing completed`; const blob = new Blob([template], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'AI_Ethics_Template.txt'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all font-mono">📋 Download Ethics Assessment Template</button><button onClick={() => { const csv = `Risk,Impact,Score\nBias,High,15`; const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'AI_Risk_Matrix.csv'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all font-mono">📊 Download Risk Matrix Worksheet (CSV)</button><a href="https://github.com/tensorflow/fairness-indicators" target="_blank" rel="noopener noreferrer" className="block p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all font-mono">🛠 TensorFlow Fairness Indicators (External)</a></div></div>
+              <div><h3 className="text-xl font-semibold mb-4 text-teal-200">Resources & Tools</h3><div className="space-y-3"><button onClick={() => { const template = `AI ETHICS CHECKLIST\n\n✅ Bias audit\n✅ PIA completed`; const blob = new Blob([template], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'AI_Ethics_Template.txt'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 font-mono">📋 Download Ethics Assessment Template</button><button onClick={() => { const csv = `Risk,Impact,Likelihood\nBias,High,Medium`; const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Risk_Matrix.csv'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 font-mono">📊 Download Risk Matrix Worksheet</button><a href="https://github.com/tensorflow/fairness-indicators" target="_blank" rel="noopener noreferrer" className="block p-3 bg-white/10 rounded-lg hover:bg-white/20 font-mono">🛠 TensorFlow Fairness Indicators</a></div></div>
             </div>
           </section>
 
-          {/* Interactive Assessment */}
           <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
             <h2 className="text-3xl font-bold mb-6 text-white serif-heading">Self-Assessment Quiz</h2>
             <p className="text-gray-300 mb-6">Test your understanding and get personalized recommendations.</p>
-            <div className="bg-gradient-to-r from-teal-950/50 to-[#1d085e]/30 rounded-xl p-6 text-center border border-teal-500/30">
-              <div className="text-6xl mb-4">🎯</div>
-              <h3 className="text-xl font-bold mb-2 text-teal-200">Assessment Coming Soon</h3>
-              <p className="text-gray-300 mb-4">Interactive quiz to evaluate your organization's AI ethics maturity</p>
-              <button className="btn-primary-brand inline-block">Notify Me When Ready</button>
-            </div>
+            <div className="bg-gradient-to-r from-teal-950/50 to-[#1d085e]/30 rounded-xl p-6 text-center border border-teal-500/30"><div className="text-6xl mb-4">🎯</div><h3 className="text-xl font-bold mb-2 text-teal-200">Assessment Coming Soon</h3><p className="text-gray-300 mb-4">Interactive quiz to evaluate your organization's AI ethics maturity</p><button className="btn-primary-brand inline-block">Notify Me When Ready</button></div>
           </section>
         </div>
       );
