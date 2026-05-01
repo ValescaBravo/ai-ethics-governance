@@ -3,89 +3,208 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Generative AI Ethics & Governance — Interactive Guide</title>
+  <title>Generative AI Ethics & Governance — Interactive Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- BRAND TYPOGRAPHY: DM Sans + DM Serif Display + DM Mono (replaces Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-    .glass-card { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.95); }
-    .hover-lift { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-    .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    /* ----- BRAND VISUAL SYSTEM - No purple gradients, no Inter ----- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #09071a;  /* navy dark background like Power BI / Excel lab style */
+      color: #eef2ff;
+      font-weight: 300;
+      scroll-behavior: smooth;
+    }
+    
+    /* brand variables */
+    :root {
+      --navy: #1d085e;
+      --teal: #13d6c1;
+      --teal-dark: #0a9a88;
+      --bg-dark: #09071a;
+      --card-bg: #0d0b1e;
+      --border-dim: #1e1e38;
+    }
+    
+    /* custom scrollbar */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #0d0b1e; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--teal-dark); }
+    
+    /* brand glass cards (replaces old .glass-card) */
+    .brand-card {
+      background: #0d0b1e;
+      border: 1px solid #1e1e38;
+      border-radius: 1.5rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .brand-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 12px 28px rgba(19,214,193,0.18);
+      transform: translateY(-2px);
+    }
+    
+    /* hero gradient with grid pattern (brand signature) */
+    .hero-brand {
+      background: linear-gradient(135deg, #0d0430, #1d085e, #0d3b38);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-brand::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(19,214,193,0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+    
+    /* button primary style (DM Mono) */
+    .btn-primary-brand {
+      background-color: #1d085e;
+      font-family: 'DM Mono', monospace;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      color: white;
+      border-radius: 9999px;
+      padding: 0.5rem 1.5rem;
+    }
+    .btn-primary-brand:hover {
+      background-color: #0a9a88;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(19,214,193,0.3);
+    }
+    
+    /* badge/chip brand */
+    .brand-chip {
+      font-family: 'DM Mono', monospace;
+      background: rgba(19,214,193,0.12);
+      border: 1px solid rgba(19,214,193,0.4);
+      color: #13d6c1;
+      border-radius: 9999px;
+      padding: 0.25rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      backdrop-filter: blur(2px);
+    }
+    
+    /* headings with serif */
+    .serif-heading {
+      font-family: 'DM Serif Display', serif;
+    }
+    
+    /* hover lift effect but with teal glow */
+    .hover-lift-brand {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-lift-brand:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgba(19,214,193,0.2);
+      border-color: var(--teal);
+    }
+    
+    .glow-brand {
+      box-shadow: 0 0 18px rgba(19,214,193,0.25);
+    }
+    
+    .animate-pulse-slow {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+    
     .slide-in { animation: slideIn 0.4s ease-out; }
     @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .glow { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+    
+    /* remove any legacy .glass-card or gradient stuff, but we'll override inline */
+    .glass-card {
+      background: #0d0b1e !important;
+      border: 1px solid #1e1e38 !important;
+      backdrop-filter: none;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0d0430, #1d085e, #0d3b38) !important;
+    }
   </style>
 </head>
-<body class="bg-gray-50">
-  <!-- Hero Section -->
-  <div class="gradient-bg relative overflow-hidden">
-    <div class="absolute inset-0 bg-black opacity-20"></div>
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center text-white">
-      <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-white/70 hover:text-white mb-6">← Back to Portfolio</a>
-      <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/20 text-sm font-medium mb-6">
-        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
-        Interactive Learning Experience
+<body class="bg-[#09071a] font-['DM_Sans'] antialiased">
+
+  <!-- Hero Section (brand) -->
+  <div class="hero-brand relative overflow-hidden">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10">
+      <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors mb-6 font-mono tracking-wide">
+        ← Back to Portfolio
+      </a>
+      <a href="https://valescabravo.github.io/lab" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors mb-6 font-mono tracking-wide">
+        ← Back to the Lab
+      </a>
+      <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm text-sm font-mono mb-6 border border-teal-400/40">
+        <span class="w-2 h-2 bg-teal-400 rounded-full mr-2 animate-pulse-slow"></span>
+        <span class="text-teal-200">Interactive Learning Experience</span>
       </div>
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight serif-heading text-white">
         Generative AI<br />
-        <span class="bg-gradient-to-r from-yellow-400 to-pink-400 bg-clip-text text-transparent">Ethics & Governance</span>
+        <span class="bg-gradient-to-r from-teal-300 via-teal-400 to-white bg-clip-text text-transparent">Ethics & Governance</span>
       </h1>
-      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
+      <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-teal-100/80">
         Navigate the complex landscape of responsible AI development with interactive scenarios, practical frameworks, and real-world solutions.
       </p>
       <div class="flex flex-wrap justify-center gap-3 mb-8">
-        <span class="px-4 py-2 bg-white/20 rounded-full text-sm">5 Core Pillars</span>
-        <span class="px-4 py-2 bg-white/20 rounded-full text-sm">Real Scenarios</span>
-        <span class="px-4 py-2 bg-white/20 rounded-full text-sm">Practical Tools</span>
-        <span class="px-4 py-2 bg-white/20 rounded-full text-sm">2026</span>
+        <span class="brand-chip">5 Core Pillars</span>
+        <span class="brand-chip">Real Scenarios</span>
+        <span class="brand-chip">Practical Tools</span>
+        <span class="brand-chip">2026</span>
       </div>
     </div>
   </div>
 
   <main id="app" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10"></main>
 
-  <footer class="bg-gray-900 text-white py-12 mt-20">
+  <footer class="bg-[#05021a] border-t border-[#1e1e38] py-12 mt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <p class="text-lg font-semibold mb-2">Generative AI, Ethics & Governance</p>
-      <p class="text-gray-400">© 2026 — Valesca Bravo - Interactive Lab</p>
+      <p class="text-lg font-semibold mb-2 text-teal-200 serif-heading">Generative AI, Ethics & Governance</p>
+      <p class="text-gray-400 font-mono text-sm">© 2026 — Valesca Bravo - Interactive Lab</p>
     </div>
   </footer>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
 
+    // Branded progress bar (teal)
     const ProgressBar = ({ currentStep, totalSteps }) => (
-      <div className="w-full bg-gray-200 rounded-full h-2 mb-8">
+      <div className="w-full bg-[#1e1e38] rounded-full h-2 mb-8">
         <div 
-          className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500 ease-out"
+          className="bg-gradient-to-r from-teal-500 to-teal-400 h-2 rounded-full transition-all duration-500 ease-out"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         ></div>
       </div>
     );
 
+    // Pillar Card (branded, replaces old PillarCard)
     const PillarCard = ({ pillar, isActive, onClick }) => {
       const [view, setView] = useState('scenario');
       
       return (
-        <div className={`glass-card border rounded-2xl p-6 hover-lift cursor-pointer transition-all duration-300 ${
-          isActive ? 'ring-2 ring-blue-500 glow' : 'border-gray-200'
+        <div className={`bg-[#0d0b1e] border rounded-2xl p-6 hover-lift-brand cursor-pointer transition-all duration-300 ${
+          isActive ? 'ring-2 ring-teal-500 glow-brand' : 'border-[#1e1e38]'
         }`}>
           <div className="flex items-start justify-between mb-4" onClick={onClick}>
             <div className="flex items-center space-x-3">
               <span className="text-3xl">{pillar.emoji}</span>
               <div>
-                <h3 className="font-bold text-lg text-gray-900">{pillar.title}</h3>
-                <p className="text-gray-600 text-sm">{pillar.desc}</p>
+                <h3 className="font-bold text-lg text-white serif-heading tracking-wide">{pillar.title}</h3>
+                <p className="text-gray-300 text-sm">{pillar.desc}</p>
               </div>
             </div>
             <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-              isActive ? 'border-blue-500 bg-blue-500' : 'border-gray-300'
+              isActive ? 'border-teal-500 bg-teal-500' : 'border-gray-500'
             }`}>
               {isActive && <div className="w-2 h-2 bg-white rounded-full"></div>}
             </div>
@@ -98,10 +217,10 @@
                   <button
                     key={tab}
                     onClick={(e) => { e.stopPropagation(); setView(tab); }}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`px-4 py-2 rounded-lg text-sm font-mono transition-all ${
                       view === tab 
-                        ? 'bg-blue-500 text-white shadow-lg' 
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-[#1d085e] text-teal-300 border border-teal-500' 
+                        : 'bg-[#14122c] text-gray-300 border border-[#2a2a4a] hover:border-teal-500'
                     }`}
                   >
                     {tab === 'scenario' ? '📝 Scenario' : 
@@ -110,21 +229,21 @@
                 ))}
               </div>
 
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <div className="bg-[#1d085e]/20 border border-teal-500/40 rounded-xl p-4">
                 {view === 'scenario' && (
                   <div>
-                    <h4 className="font-semibold text-blue-900 mb-2">Real-World Challenge</h4>
-                    <p className="text-gray-700">{pillar.scenario}</p>
+                    <h4 className="font-semibold text-teal-200 mb-2 font-mono">Real-World Challenge</h4>
+                    <p className="text-gray-200">{pillar.scenario}</p>
                   </div>
                 )}
                 {view === 'practice' && (
                   <div>
-                    <h4 className="font-semibold text-blue-900 mb-3">Implementation Guidelines</h4>
+                    <h4 className="font-semibold text-teal-200 mb-3">Implementation Guidelines</h4>
                     <ul className="space-y-2">
                       {pillar.practice.map((item, idx) => (
                         <li key={idx} className="flex items-start space-x-2">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                          <span className="text-gray-700">{item}</span>
+                          <span className="w-2 h-2 bg-teal-500 rounded-full mt-2 flex-shrink-0"></span>
+                          <span className="text-gray-200">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -132,12 +251,12 @@
                 )}
                 {view === 'tools' && (
                   <div>
-                    <h4 className="font-semibold text-blue-900 mb-3">Recommended Solutions</h4>
+                    <h4 className="font-semibold text-teal-200 mb-3">Recommended Solutions</h4>
                     <ul className="space-y-2">
                       {pillar.tools.map((tool, idx) => (
                         <li key={idx} className="flex items-start space-x-2">
-                          <span className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
-                          <span className="text-gray-700">{tool}</span>
+                          <span className="w-2 h-2 bg-teal-400 rounded-full mt-2 flex-shrink-0"></span>
+                          <span className="text-gray-200">{tool}</span>
                         </li>
                       ))}
                     </ul>
@@ -150,30 +269,31 @@
       );
     };
 
+    // Framework Step (brand)
     const FrameworkStep = ({ step, isActive, onClick }) => (
       <div 
-        className={`glass-card border rounded-2xl p-6 hover-lift cursor-pointer transition-all duration-300 ${
-          isActive ? 'ring-2 ring-purple-500 bg-purple-50' : 'border-gray-200'
+        className={`bg-[#0d0b1e] border rounded-2xl p-6 hover-lift-brand cursor-pointer transition-all duration-300 ${
+          isActive ? 'ring-2 ring-teal-500 glow-brand' : 'border-[#1e1e38]'
         }`}
         onClick={onClick}
       >
         <div className="text-center">
           <div className="text-4xl mb-3">{step.emoji}</div>
-          <h3 className="font-bold text-lg mb-2">{step.title}</h3>
-          <p className="text-gray-600 text-sm mb-4">{step.subtitle}</p>
+          <h3 className="font-bold text-lg mb-2 text-white serif-heading">{step.title}</h3>
+          <p className="text-gray-300 text-sm mb-4">{step.subtitle}</p>
           
           {isActive && (
             <div className="slide-in text-left">
-              <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-4">
-                <p className="text-gray-700 mb-3">{step.desc}</p>
+              <div className="bg-teal-900/20 border border-teal-500/40 rounded-xl p-4 mb-4">
+                <p className="text-gray-200 mb-3">{step.desc}</p>
                 
                 <div className="space-y-3">
                   <div>
-                    <h5 className="font-semibold text-purple-900 mb-2">Key Actions:</h5>
+                    <h5 className="font-semibold text-teal-200 mb-2">Key Actions:</h5>
                     <ul className="space-y-1">
                       {step.practice.map((item, idx) => (
-                        <li key={idx} className="text-sm text-gray-700 flex items-start">
-                          <span className="w-1.5 h-1.5 bg-purple-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                        <li key={idx} className="text-sm text-gray-200 flex items-start">
+                          <span className="w-1.5 h-1.5 bg-teal-400 rounded-full mt-2 mr-2 flex-shrink-0"></span>
                           {item}
                         </li>
                       ))}
@@ -181,11 +301,11 @@
                   </div>
                   
                   <div>
-                    <h5 className="font-semibold text-purple-900 mb-2">Pro Tips:</h5>
+                    <h5 className="font-semibold text-teal-200 mb-2">Pro Tips:</h5>
                     <ul className="space-y-1">
                       {step.tips.map((tip, idx) => (
-                        <li key={idx} className="text-sm text-gray-700 flex items-start">
-                          <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                        <li key={idx} className="text-sm text-gray-200 flex items-start">
+                          <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mt-2 mr-2 flex-shrink-0"></span>
                           {tip}
                         </li>
                       ))}
@@ -199,41 +319,30 @@
       </div>
     );
 
+    // Risk Matrix (brand colors)
     const RiskMatrix = () => {
       const [selectedRisk, setSelectedRisk] = useState(null);
-      
       const risks = [
-        { id: 1, name: 'Bias in Hiring', impact: 'High', likelihood: 'Medium', x: 60, y: 30, color: 'bg-red-500' },
-        { id: 2, name: 'IP Infringement', impact: 'Medium', likelihood: 'High', x: 80, y: 50, color: 'bg-orange-500' },
-        { id: 3, name: 'Privacy Breach', impact: 'High', likelihood: 'Low', x: 30, y: 20, color: 'bg-yellow-500' },
-        { id: 4, name: 'Energy Waste', impact: 'Low', likelihood: 'High', x: 85, y: 80, color: 'bg-green-500' },
+        { id: 1, name: 'Bias in Hiring', impact: 'High', likelihood: 'Medium', x: 60, y: 30, color: 'bg-teal-600' },
+        { id: 2, name: 'IP Infringement', impact: 'Medium', likelihood: 'High', x: 80, y: 50, color: 'bg-teal-500' },
+        { id: 3, name: 'Privacy Breach', impact: 'High', likelihood: 'Low', x: 30, y: 20, color: 'bg-[#1d085e]' },
+        { id: 4, name: 'Energy Waste', impact: 'Low', likelihood: 'High', x: 85, y: 80, color: 'bg-emerald-700' },
       ];
-
       return (
-        <div className="glass-card rounded-2xl p-6">
-          <h3 className="font-bold text-xl mb-4">Interactive Risk Assessment Matrix</h3>
-          <div className="relative bg-gradient-to-tr from-green-100 via-yellow-100 to-red-100 rounded-xl p-4 h-80">
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm font-medium text-gray-700">High Impact</div>
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-medium text-gray-700">Low Impact</div>
-            <div className="absolute left-2 top-1/2 transform -translate-y-1/2 -rotate-90 text-sm font-medium text-gray-700">Low Likelihood</div>
-            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 rotate-90 text-sm font-medium text-gray-700">High Likelihood</div>
-            
+        <div className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-6">
+          <h3 className="font-bold text-xl mb-4 text-white serif-heading">Interactive Risk Assessment Matrix</h3>
+          <div className="relative bg-gradient-to-tr from-green-950 via-yellow-950 to-red-950 rounded-xl p-4 h-80 border border-[#2a2a4a]">
+            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm font-mono text-teal-200">High Impact</div>
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-mono text-gray-300">Low Impact</div>
+            <div className="absolute left-2 top-1/2 transform -translate-y-1/2 -rotate-90 text-sm font-mono text-gray-300">Low Likelihood</div>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 rotate-90 text-sm font-mono text-gray-300">High Likelihood</div>
             {risks.map(risk => (
-              <div
-                key={risk.id}
-                className={`absolute w-4 h-4 ${risk.color} rounded-full cursor-pointer hover:scale-150 transition-all duration-200 shadow-lg`}
-                style={{ left: `${risk.x}%`, top: `${risk.y}%` }}
-                onClick={() => setSelectedRisk(selectedRisk === risk.id ? null : risk.id)}
-              >
-                {selectedRisk === risk.id && (
-                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-1 rounded-lg text-xs whitespace-nowrap z-10">
-                    {risk.name}
-                  </div>
-                )}
+              <div key={risk.id} className={`absolute w-4 h-4 ${risk.color} rounded-full cursor-pointer hover:scale-150 transition-all duration-200 shadow-lg`} style={{ left: `${risk.x}%`, top: `${risk.y}%` }} onClick={() => setSelectedRisk(selectedRisk === risk.id ? null : risk.id)}>
+                {selectedRisk === risk.id && (<div className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-teal-200 px-3 py-1 rounded-lg text-xs whitespace-nowrap z-10 border border-teal-500">{risk.name}</div>)}
               </div>
             ))}
           </div>
-          <p className="text-sm text-gray-600 mt-3">Click the dots to see risk details. Position shows Impact (Y-axis) vs Likelihood (X-axis).</p>
+          <p className="text-sm text-gray-400 mt-3 font-mono">Click the dots to see risk details. Position shows Impact (Y-axis) vs Likelihood (X-axis).</p>
         </div>
       );
     };
@@ -244,199 +353,52 @@
       const [activeFramework, setActiveFramework] = useState(null);
 
       const pillars = [
-        {
-          k: 'bias',
-          title: 'Bias & Fairness',
-          emoji: '⚖️',
-          desc: 'Prevent discriminatory outcomes and ensure equitable AI systems',
+        { k: 'bias', title: 'Bias & Fairness', emoji: '⚖️', desc: 'Prevent discriminatory outcomes and ensure equitable AI systems',
           scenario: 'An AI recruitment tool systematically filters out qualified candidates from underrepresented groups due to biased training data, leading to a discrimination lawsuit and regulatory investigation.',
-          practice: [
-            'Conduct comprehensive bias audits across all demographic groups',
-            'Implement fairness constraints during model training (demographic parity, equalized odds)',
-            'Establish diverse review committees including affected community representatives',
-            'Create continuous monitoring systems for bias drift post-deployment'
-          ],
-          tools: [
-            'Fairlearn & AIF360 for automated bias detection and mitigation',
-            'What-If Tool for interactive bias exploration',
-            'Model Cards for transparent bias documentation',
-            'A/B testing frameworks for fairness validation'
-          ]
-        },
-        {
-          k: 'privacy',
-          title: 'Privacy & Data Protection',
-          emoji: '🔒',
-          desc: 'Safeguard personal data throughout the AI lifecycle',
-          scenario: 'A chatbot inadvertently memorizes and reproduces personal information from training data, violating GDPR and exposing customer details in conversations.',
-          practice: [
-            'Implement privacy-by-design principles from project inception',
-            'Use differential privacy and data minimization techniques',
-            'Conduct Privacy Impact Assessments (PIAs) for all AI projects',
-            'Establish clear data retention and deletion policies'
-          ],
-          tools: [
-            'Differential Privacy libraries (Google DP, OpenDP)',
-            'Data anonymization tools (ARX, μ-ARGUS)',
-            'Privacy impact assessment templates',
-            'Consent management platforms'
-          ]
-        },
-        {
-          k: 'transparency',
-          title: 'Transparency & Explainability',
-          emoji: '🔍',
-          desc: 'Ensure AI decisions are understandable and accountable',
-          scenario: 'A loan approval AI denies applications without explanation, facing regulatory scrutiny for lack of transparency in automated decision-making affecting consumers.',
-          practice: [
-            'Develop clear model documentation and decision logic explanations',
-            'Implement appropriate explainability methods for your use case',
-            'Provide accessible explanations for end users and stakeholders',
-            'Establish audit trails for all AI-driven decisions'
-          ],
-          tools: [
-            'SHAP and LIME for local and global explanations',
-            'Model registry platforms with lineage tracking',
-            'Automated documentation generators',
-            'Interactive explanation dashboards'
-          ]
-        },
-        {
-          k: 'safety',
-          title: 'Safety & Robustness',
-          emoji: '🛡️',
-          desc: 'Build resilient AI systems that fail safely',
-          scenario: 'An autonomous system makes dangerous decisions when encountering edge cases not covered in training, resulting in safety incidents and system recalls.',
-          practice: [
-            'Implement comprehensive testing including adversarial scenarios',
-            'Design fail-safe mechanisms and human override capabilities',
-            'Conduct regular red-team exercises and stress testing',
-            'Establish incident response procedures for AI failures'
-          ],
-          tools: [
-            'Adversarial testing frameworks (Foolbox, CleverHans)',
-            'Model validation and verification tools',
-            'Chaos engineering platforms for AI systems',
-            'Real-time anomaly detection systems'
-          ]
-        },
-        {
-          k: 'sustainability',
-          title: 'Environmental Impact',
-          emoji: '🌱',
-          desc: 'Minimize carbon footprint and resource consumption',
-          scenario: 'Training large language models generates massive carbon emissions, conflicting with corporate sustainability goals and facing pressure from environmentally conscious stakeholders.',
-          practice: [
-            'Optimize model architectures for efficiency (pruning, quantization)',
-            'Choose renewable energy-powered cloud infrastructure',
-            'Implement carbon tracking and reporting for all AI workloads',
-            'Consider model lifecycle environmental impact in project planning'
-          ],
-          tools: [
-            'CodeCarbon for automated carbon tracking',
-            'Green AI measurement frameworks',
-            'Model compression toolkits (TensorFlow Lite, ONNX)',
-            'Cloud carbon footprint calculators'
-          ]
-        }
+          practice: [ 'Conduct comprehensive bias audits across all demographic groups', 'Implement fairness constraints during model training', 'Establish diverse review committees', 'Create continuous monitoring systems for bias drift' ],
+          tools: [ 'Fairlearn & AIF360', 'What-If Tool', 'Model Cards', 'A/B testing for fairness validation' ] },
+        { k: 'privacy', title: 'Privacy & Data Protection', emoji: '🔒', desc: 'Safeguard personal data throughout the AI lifecycle',
+          scenario: 'A chatbot inadvertently memorizes and reproduces personal information from training data, violating GDPR and exposing customer details.',
+          practice: [ 'Privacy-by-design', 'Differential privacy techniques', 'Conduct Privacy Impact Assessments', 'Data retention policies' ],
+          tools: [ 'Differential Privacy libraries', 'Anonymization tools (ARX)', 'Consent management platforms' ] },
+        { k: 'transparency', title: 'Transparency & Explainability', emoji: '🔍', desc: 'Ensure AI decisions are understandable and accountable',
+          scenario: 'A loan approval AI denies applications without explanation, facing regulatory scrutiny for lack of transparency.',
+          practice: [ 'Model documentation', 'Explainability methods', 'Accessible explanations for users', 'Audit trails' ],
+          tools: [ 'SHAP & LIME', 'Model registry platforms', 'Explanation dashboards' ] },
+        { k: 'safety', title: 'Safety & Robustness', emoji: '🛡️', desc: 'Build resilient AI systems that fail safely',
+          scenario: 'An autonomous system makes dangerous decisions when encountering edge cases not covered in training.',
+          practice: [ 'Adversarial testing', 'Fail-safe mechanisms', 'Red-team exercises', 'Incident response' ],
+          tools: [ 'Foolbox, CleverHans', 'Model validation', 'Anomaly detection' ] },
+        { k: 'sustainability', title: 'Environmental Impact', emoji: '🌱', desc: 'Minimize carbon footprint and resource consumption',
+          scenario: 'Training large language models generates massive carbon emissions, conflicting with corporate sustainability goals.',
+          practice: [ 'Optimize architectures', 'Renewable energy infrastructure', 'Carbon tracking', 'Lifecycle impact planning' ],
+          tools: [ 'CodeCarbon', 'Green AI frameworks', 'Model compression toolkits' ] }
       ];
 
       const frameworkSteps = [
-        {
-          k: 'org',
-          title: 'Organization',
-          emoji: '👥',
-          subtitle: 'Governance Structure',
-          desc: 'Establish clear accountability and decision-making structures for AI ethics across your organization.',
-          practice: [
-            'Form a cross-functional AI Ethics Committee with defined roles and responsibilities',
-            'Assign AI ethics champions in each business unit',
-            'Create escalation paths for ethical concerns and conflicts',
-            'Establish regular ethics review cycles for AI projects'
-          ],
-          tips: [
-            'Include external advisors for independent perspectives',
-            'Rotate committee membership to prevent groupthink',
-            'Document all decisions with clear rationales',
-            'Tie ethics performance to leadership KPIs'
-          ]
-        },
-        {
-          k: 'process',
-          title: 'Processes',
-          emoji: '🔄',
-          subtitle: 'Lifecycle Management',
-          desc: 'Implement systematic processes that embed ethics throughout the AI development lifecycle.',
-          practice: [
-            'Standardize AI project intake with ethics risk assessment',
-            'Define stage gates with ethics review checkpoints',
-            'Establish monitoring and incident response procedures',
-            'Create feedback loops for continuous improvement'
-          ],
-          tips: [
-            'Align with existing software development processes',
-            'Automate compliance checking where possible',
-            'Regular process audits and updates',
-            'Train teams on ethics review procedures'
-          ]
-        },
-        {
-          k: 'technology',
-          title: 'Technology',
-          emoji: '⚙️',
-          subtitle: 'Technical Infrastructure',
-          desc: 'Deploy tools and platforms that enable ethical AI development, monitoring, and governance at scale.',
-          practice: [
-            'Implement model registries with ethics metadata tracking',
-            'Deploy automated bias and fairness monitoring',
-            'Establish data lineage and provenance systems',
-            'Create dashboards for ethics metrics and KPIs'
-          ],
-          tips: [
-            'Integrate ethics tools into existing MLOps pipelines',
-            'Automate documentation generation for compliance',
-            'Set up real-time alerts for ethics violations',
-            'Regular tool evaluation and updates'
-          ]
-        }
+        { k: 'org', title: 'Organization', emoji: '👥', subtitle: 'Governance Structure', desc: 'Establish clear accountability and decision-making structures for AI ethics.',
+          practice: [ 'Form AI Ethics Committee', 'Assign AI ethics champions', 'Escalation paths for concerns', 'Regular ethics review cycles' ],
+          tips: [ 'Include external advisors', 'Rotate membership', 'Document decisions', 'Tie ethics to leadership KPIs' ] },
+        { k: 'process', title: 'Processes', emoji: '🔄', subtitle: 'Lifecycle Management', desc: 'Embed ethics throughout the AI development lifecycle.',
+          practice: [ 'Standardize AI intake with ethics risk assessment', 'Stage gates with ethics review', 'Monitoring and incident response', 'Feedback loops' ],
+          tips: [ 'Align with existing SDLC', 'Automate compliance', 'Regular audits', 'Train teams' ] },
+        { k: 'technology', title: 'Technology', emoji: '⚙️', subtitle: 'Technical Infrastructure', desc: 'Deploy tools enabling ethical AI at scale.',
+          practice: [ 'Model registries with ethics metadata', 'Automated bias monitoring', 'Data lineage systems', 'Ethics metrics dashboards' ],
+          tips: [ 'Integrate with MLOps', 'Auto-documentation', 'Real-time alerts', 'Regular tool updates' ] }
       ];
 
       const outcomes = [
         { icon: '🤝', title: 'Build Trust', desc: 'Increase stakeholder confidence and user adoption' },
-        { icon: '⚡', title: 'Accelerate Innovation', desc: 'Clear guidelines enable faster, more confident development' },
-        { icon: '🔒', title: 'Mitigate Risk', desc: 'Proactive governance prevents costly incidents and compliance issues' },
-        { icon: '🌍', title: 'Ensure Compliance', desc: 'Meet emerging regulatory requirements across global markets' }
+        { icon: '⚡', title: 'Accelerate Innovation', desc: 'Clear guidelines enable faster development' },
+        { icon: '🔒', title: 'Mitigate Risk', desc: 'Prevent costly incidents and compliance issues' },
+        { icon: '🌍', title: 'Ensure Compliance', desc: 'Meet emerging regulatory requirements' }
       ];
 
       const regulations = [
-        {
-          title: 'EU AI Act (Reg. 2024/1689)',
-          desc: 'Risk-based regulation with phased rollout. Prohibitions active since Feb 2025. GPAI rules since Aug 2025. High-risk system rules and transparency obligations (Art. 50) apply 2 August 2026.',
-          link: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng',
-          status: 'In Force',
-          color: 'bg-blue-500'
-        },
-        {
-          title: 'Ireland: AI Bill 2026',
-          desc: 'General Scheme published Feb 2026. Creates Oifig Intleachta Shaorga na hÉireann (AI Office of Ireland) as central coordinator, operational by 2 Aug 2026. Distributed model: 15 sectoral competent authorities designated.',
-          link: 'https://enterprise.gov.ie/en/legislation/general-scheme-of-the-regulation-of-artificial-intelligence-bill-2026.html',
-          status: 'In Preparation',
-          color: 'bg-indigo-500'
-        },
-        {
-          title: 'NIST AI RMF',
-          desc: 'Framework for managing AI risks across organizations — globally recognized best practice, widely adopted alongside EU regulatory requirements.',
-          link: 'https://www.nist.gov/itl/ai-risk-management-framework',
-          status: 'Framework',
-          color: 'bg-green-500'
-        },
-        {
-          title: 'Irish DPC — GDPR & AI',
-          desc: 'The DPC is Lead Supervisory Authority for Meta, Google, LinkedIn, TikTok across the EU. Active in AI: investigated Grok (X), issued guidance on LLMs (Jul 2024), and oversees AI + personal data in Ireland under the distributed AI Act model.',
-          link: 'https://www.dataprotection.ie/en',
-          status: 'Enforcement',
-          color: 'bg-emerald-500'
-        }
+        { title: 'EU AI Act (Reg. 2024/1689)', desc: 'Risk-based regulation. Prohibitions active since Feb 2025. GPAI rules since Aug 2025. High-risk system rules apply 2 August 2026.', link: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng', status: 'In Force', color: 'bg-teal-600' },
+        { title: 'Ireland: AI Bill 2026', desc: 'General Scheme published Feb 2026. Creates Oifig Intleachta Shaorga na hÉireann as central coordinator, operational by 2 Aug 2026.', link: 'https://enterprise.gov.ie/en/legislation/general-scheme-of-the-regulation-of-artificial-intelligence-bill-2026.html', status: 'In Preparation', color: 'bg-[#1d085e]' },
+        { title: 'NIST AI RMF', desc: 'Framework for managing AI risks across organizations — globally recognized best practice.', link: 'https://www.nist.gov/itl/ai-risk-management-framework', status: 'Framework', color: 'bg-teal-500' },
+        { title: 'Irish DPC — GDPR & AI', desc: 'Lead Supervisory Authority for Meta, Google, LinkedIn. Active in AI investigations and guidance on LLMs.', link: 'https://www.dataprotection.ie/en', status: 'Enforcement', color: 'bg-emerald-700' }
       ];
 
       return (
@@ -444,40 +406,18 @@
           <ProgressBar currentStep={currentStep} totalSteps={5} />
 
           {/* Step 1: Foundation */}
-          <section className="glass-card rounded-2xl p-8 border border-gray-200">
+          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl transition-all">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-3xl font-bold text-gray-900">Step 1: The Challenge</h2>
-              <button
-                onClick={() => setCurrentStep(Math.max(1, currentStep))}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${currentStep >= 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
-              >
-                Start Here
-              </button>
+              <h2 className="text-3xl font-bold text-white serif-heading">Step 1: The Challenge</h2>
+              <button onClick={() => setCurrentStep(Math.max(1, currentStep))} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 1 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Start Here</button>
             </div>
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
-                <p className="text-lg text-gray-700 mb-6">
-                  Generative AI delivers unprecedented value but introduces complex ethical challenges. Organizations need systematic approaches to balance <strong>innovation velocity</strong> with <strong>responsible deployment</strong>.
-                </p>
+                <p className="text-lg text-gray-200 mb-6">Generative AI delivers unprecedented value but introduces complex ethical challenges. Organizations need systematic approaches to balance <strong className="text-teal-300">innovation velocity</strong> with <strong className="text-teal-300">responsible deployment</strong>.</p>
                 <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                      <span className="text-red-600">⚠️</span>
-                    </div>
-                    <span className="text-gray-700">Bias can perpetuate discrimination</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                      <span className="text-orange-600">🔓</span>
-                    </div>
-                    <span className="text-gray-700">Privacy violations risk regulatory action</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                      <span className="text-yellow-600">⚡</span>
-                    </div>
-                    <span className="text-gray-700">Environmental impact affects sustainability goals</span>
-                  </div>
+                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-red-800/40 rounded-full flex items-center justify-center"><span className="text-red-400">⚠️</span></div><span className="text-gray-200">Bias can perpetuate discrimination</span></div>
+                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-amber-800/40 rounded-full flex items-center justify-center"><span className="text-amber-400">🔓</span></div><span className="text-gray-200">Privacy violations risk regulatory action</span></div>
+                  <div className="flex items-center space-x-3"><div className="w-8 h-8 bg-teal-800/40 rounded-full flex items-center justify-center"><span className="text-teal-400">⚡</span></div><span className="text-gray-200">Environmental impact affects sustainability goals</span></div>
                 </div>
               </div>
               <RiskMatrix />
@@ -485,211 +425,69 @@
           </section>
 
           {/* Step 2: Core Pillars */}
-          <section className="glass-card rounded-2xl p-8 border border-gray-200">
+          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Step 2: The Five Pillars</h2>
-              <button
-                onClick={() => setCurrentStep(Math.max(2, currentStep))}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${currentStep >= 2 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600'}`}
-              >
-                Explore Pillars
-              </button>
+              <h2 className="text-3xl font-bold text-white serif-heading">Step 2: The Five Pillars</h2>
+              <button onClick={() => setCurrentStep(2)} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 2 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Explore Pillars</button>
             </div>
-            <p className="text-gray-600 mb-8">Click each pillar to explore real-world scenarios, best practices, and practical tools.</p>
+            <p className="text-gray-300 mb-8">Click each pillar to explore real-world scenarios, best practices, and practical tools.</p>
             <div className="grid gap-6">
-              {pillars.map(pillar => (
-                <PillarCard
-                  key={pillar.k}
-                  pillar={pillar}
-                  isActive={activePillar === pillar.k}
-                  onClick={() => {
-                    setActivePillar(activePillar === pillar.k ? null : pillar.k);
-                    if (currentStep < 2) setCurrentStep(2);
-                  }}
-                />
-              ))}
+              {pillars.map(pillar => (<PillarCard key={pillar.k} pillar={pillar} isActive={activePillar === pillar.k} onClick={() => { setActivePillar(activePillar === pillar.k ? null : pillar.k); if (currentStep < 2) setCurrentStep(2); }} />))}
             </div>
           </section>
 
           {/* Step 3: Implementation Framework */}
-          <section className="glass-card rounded-2xl p-8 border border-gray-200">
+          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Step 3: Implementation Framework</h2>
-              <button
-                onClick={() => setCurrentStep(Math.max(3, currentStep))}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${currentStep >= 3 ? 'bg-purple-500 text-white' : 'bg-gray-200 text-gray-600'}`}
-              >
-                Build Framework
-              </button>
+              <h2 className="text-3xl font-bold text-white serif-heading">Step 3: Implementation Framework</h2>
+              <button onClick={() => setCurrentStep(3)} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 3 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Build Framework</button>
             </div>
-            <p className="text-gray-600 mb-8">Three foundational elements for successful AI ethics governance.</p>
+            <p className="text-gray-300 mb-8">Three foundational elements for successful AI ethics governance.</p>
             <div className="grid md:grid-cols-3 gap-6">
-              {frameworkSteps.map(step => (
-                <FrameworkStep
-                  key={step.k}
-                  step={step}
-                  isActive={activeFramework === step.k}
-                  onClick={() => {
-                    setActiveFramework(activeFramework === step.k ? null : step.k);
-                    if (currentStep < 3) setCurrentStep(3);
-                  }}
-                />
-              ))}
+              {frameworkSteps.map(step => (<FrameworkStep key={step.k} step={step} isActive={activeFramework === step.k} onClick={() => { setActiveFramework(activeFramework === step.k ? null : step.k); if (currentStep < 3) setCurrentStep(3); }} />))}
             </div>
           </section>
 
           {/* Step 4: Regulatory Landscape */}
-          <section className="glass-card rounded-2xl p-8 border border-gray-200">
+          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Step 4: Regulatory Landscape 2026</h2>
-              <button
-                onClick={() => setCurrentStep(Math.max(4, currentStep))}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${currentStep >= 4 ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'}`}
-              >
-                Review Regulations
-              </button>
+              <h2 className="text-3xl font-bold text-white serif-heading">Step 4: Regulatory Landscape 2026</h2>
+              <button onClick={() => setCurrentStep(4)} className={`px-4 py-2 rounded-lg font-mono transition-all ${currentStep >= 4 ? 'bg-[#1d085e] text-teal-300 border border-teal-500' : 'bg-[#14122c] text-gray-400'}`}>Review Regulations</button>
             </div>
             <div className="grid md:grid-cols-2 gap-6">
-              {regulations.map((reg, idx) => (
-                <div key={idx} className="border border-gray-200 rounded-xl p-6 hover-lift">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-lg">{reg.title}</h3>
-                    <span className={`px-3 py-1 rounded-full text-white text-xs ${reg.color}`}>
-                      {reg.status}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-4">{reg.desc}</p>
-                  <a
-                    href={reg.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-                  >
-                    Read More →
-                  </a>
-                </div>
-              ))}
+              {regulations.map((reg, idx) => (<div key={idx} className="border border-[#1e1e38] rounded-xl p-6 hover-lift-brand bg-[#0a0820]"><div className="flex items-center justify-between mb-3"><h3 className="font-bold text-lg text-white">{reg.title}</h3><span className={`px-3 py-1 rounded-full text-white text-xs font-mono ${reg.color}`}>{reg.status}</span></div><p className="text-gray-300 mb-4">{reg.desc}</p><a href={reg.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-teal-400 hover:text-teal-300 font-mono">Read More →</a></div>))}
             </div>
           </section>
 
           {/* Step 5: Expected Outcomes */}
-          <section className="glass-card rounded-2xl p-8 border border-gray-200">
+          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Step 5: Expected Outcomes</h2>
-              <button
-                onClick={() => setCurrentStep(5)}
-                className="px-4 py-2 rounded-lg font-medium bg-gradient-to-r from-blue-500 to-purple-500 text-white"
-              >
-                See Results
-              </button>
+              <h2 className="text-3xl font-bold text-white serif-heading">Step 5: Expected Outcomes</h2>
+              <button onClick={() => setCurrentStep(5)} className="px-4 py-2 rounded-lg font-mono bg-[#1d085e] text-teal-300 border border-teal-500">See Results</button>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {outcomes.map((outcome, idx) => (
-                <div key={idx} className="text-center p-6 border border-gray-200 rounded-xl hover-lift">
-                  <div className="text-4xl mb-3">{outcome.icon}</div>
-                  <h3 className="font-bold text-lg mb-2">{outcome.title}</h3>
-                  <p className="text-gray-600 text-sm">{outcome.desc}</p>
-                </div>
-              ))}
+              {outcomes.map((outcome, idx) => (<div key={idx} className="text-center p-6 border border-[#1e1e38] rounded-xl hover-lift-brand bg-[#0a0820]"><div className="text-4xl mb-3">{outcome.icon}</div><h3 className="font-bold text-lg mb-2 text-white">{outcome.title}</h3><p className="text-gray-300 text-sm">{outcome.desc}</p></div>))}
             </div>
           </section>
 
-          {/* Action Items & Next Steps */}
-          <section className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
-            <h2 className="text-3xl font-bold mb-6">Ready to Implement?</h2>
+          {/* Action Items & Next Steps (brand) */}
+          <section className="bg-gradient-to-r from-[#1d085e] to-[#0d3b38] rounded-2xl p-8 text-white border border-teal-500/40 shadow-2xl">
+            <h2 className="text-3xl font-bold mb-6 serif-heading">Ready to Implement?</h2>
             <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Quick Start Checklist</h3>
-                <div className="space-y-3">
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="checkbox" className="w-5 h-5 rounded" />
-                    <span>Establish AI Ethics Committee</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="checkbox" className="w-5 h-5 rounded" />
-                    <span>Conduct bias audit on existing models</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="checkbox" className="w-5 h-5 rounded" />
-                    <span>Implement model documentation standards</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="checkbox" className="w-5 h-5 rounded" />
-                    <span>Set up continuous monitoring systems</span>
-                  </label>
-                  <label className="flex items-center space-x-3 cursor-pointer">
-                    <input type="checkbox" className="w-5 h-5 rounded" />
-                    <span>Train team on ethics frameworks</span>
-                  </label>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Resources & Tools</h3>
-                <div className="space-y-3">
-                  <button 
-                    onClick={() => {
-                      const template = `AI ETHICS ASSESSMENT CHECKLIST\n\n✅ BIAS & FAIRNESS\n- [ ] Dataset diversity analysis completed\n- [ ] Bias testing across demographic groups\n- [ ] Fairness metrics defined and measured\n- [ ] Stakeholder feedback incorporated\n\n✅ PRIVACY & DATA PROTECTION\n- [ ] Data minimization principles applied\n- [ ] Privacy impact assessment conducted\n- [ ] User consent mechanisms in place\n- [ ] Data retention policies defined\n\n✅ TRANSPARENCY\n- [ ] Model documentation completed\n- [ ] Decision logic explained to users\n- [ ] Audit trails established\n- [ ] Appeals process defined\n\n✅ SAFETY & ROBUSTNESS\n- [ ] Adversarial testing completed\n- [ ] Fail-safe mechanisms implemented\n- [ ] Human override capabilities built\n- [ ] Incident response plan ready\n\n✅ SUSTAINABILITY\n- [ ] Carbon footprint measured\n- [ ] Model efficiency optimized\n- [ ] Green infrastructure selected\n- [ ] Environmental impact reported`;
-                      
-                      const blob = new Blob([template], { type: 'text/plain' });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = 'AI_Ethics_Assessment_Template.txt';
-                      a.click();
-                      URL.revokeObjectURL(url);
-                    }}
-                    className="block w-full text-left p-3 bg-white/20 rounded-lg hover:bg-white/30 transition-all cursor-pointer"
-                  >
-                    📋 Download Ethics Assessment Template
-                  </button>
-                  <button 
-                    onClick={() => {
-                      const csvContent = `Risk Category,Description,Impact (1-5),Likelihood (1-5),Risk Score,Mitigation Strategy
-Algorithmic Bias,Model discriminates against protected groups,5,3,15,Bias testing and diverse training data
-Data Privacy,Personal information exposure,4,2,8,Privacy-by-design and data minimization
-Model Transparency,Lack of explainability,3,4,12,Model cards and explanation interfaces
-Safety Failures,System causes harm in edge cases,5,2,10,Comprehensive testing and human oversight
-Environmental Impact,High carbon footprint from training,2,5,10,Efficient architectures and green energy
-IP Infringement,Generated content violates copyrights,4,3,12,Licensed datasets and content filtering
-Regulatory Non-compliance,Violation of AI governance laws,4,4,16,Compliance monitoring and legal review`;
-                      
-                      const blob = new Blob([csvContent], { type: 'text/csv' });
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = 'AI_Risk_Matrix_Template.csv';
-                      a.click();
-                      URL.revokeObjectURL(url);
-                    }}
-                    className="block w-full text-left p-3 bg-white/20 rounded-lg hover:bg-white/30 transition-all cursor-pointer"
-                  >
-                    📊 Download Risk Matrix Worksheet (CSV)
-                  </button>
-                  <a 
-                    href="https://github.com/tensorflow/fairness-indicators" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="block p-3 bg-white/20 rounded-lg hover:bg-white/30 transition-all"
-                  >
-                    🛠 TensorFlow Fairness Indicators (External)
-                  </a>
-                </div>
-              </div>
+              <div><h3 className="text-xl font-semibold mb-4 text-teal-200">Quick Start Checklist</h3><div className="space-y-3"><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Establish AI Ethics Committee</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Conduct bias audit on existing models</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Implement model documentation standards</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Set up continuous monitoring systems</span></label><label className="flex items-center space-x-3 cursor-pointer"><input type="checkbox" className="w-5 h-5 rounded accent-teal-500" /><span>Train team on ethics frameworks</span></label></div></div>
+              <div><h3 className="text-xl font-semibold mb-4 text-teal-200">Resources & Tools</h3><div className="space-y-3"><button onClick={() => { const template = `AI ETHICS ASSESSMENT CHECKLIST\n\n✅ BIAS & FAIRNESS\n- [ ] Dataset diversity analysis completed\n- [ ] Bias testing completed`; const blob = new Blob([template], { type: 'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'AI_Ethics_Template.txt'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all font-mono">📋 Download Ethics Assessment Template</button><button onClick={() => { const csv = `Risk,Impact,Score\nBias,High,15`; const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'AI_Risk_Matrix.csv'; a.click(); URL.revokeObjectURL(url); }} className="block w-full text-left p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all font-mono">📊 Download Risk Matrix Worksheet (CSV)</button><a href="https://github.com/tensorflow/fairness-indicators" target="_blank" rel="noopener noreferrer" className="block p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all font-mono">🛠 TensorFlow Fairness Indicators (External)</a></div></div>
             </div>
           </section>
 
           {/* Interactive Assessment */}
-          <section className="glass-card rounded-2xl p-8 border border-gray-200">
-            <h2 className="text-3xl font-bold mb-6">Self-Assessment Quiz</h2>
-            <p className="text-gray-600 mb-6">Test your understanding and get personalized recommendations.</p>
-            
-            <div className="bg-gradient-to-r from-green-100 to-blue-100 rounded-xl p-6 text-center">
+          <section className="bg-[#0d0b1e] border border-[#1e1e38] rounded-2xl p-8 shadow-xl">
+            <h2 className="text-3xl font-bold mb-6 text-white serif-heading">Self-Assessment Quiz</h2>
+            <p className="text-gray-300 mb-6">Test your understanding and get personalized recommendations.</p>
+            <div className="bg-gradient-to-r from-teal-950/50 to-[#1d085e]/30 rounded-xl p-6 text-center border border-teal-500/30">
               <div className="text-6xl mb-4">🎯</div>
-              <h3 className="text-xl font-bold mb-2">Assessment Coming Soon</h3>
-              <p className="text-gray-700 mb-4">Interactive quiz to evaluate your organization's AI ethics maturity</p>
-              <button className="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-all">
-                Notify Me When Ready
-              </button>
+              <h3 className="text-xl font-bold mb-2 text-teal-200">Assessment Coming Soon</h3>
+              <p className="text-gray-300 mb-4">Interactive quiz to evaluate your organization's AI ethics maturity</p>
+              <button className="btn-primary-brand inline-block">Notify Me When Ready</button>
             </div>
           </section>
         </div>
