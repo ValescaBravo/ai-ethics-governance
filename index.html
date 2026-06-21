@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KHLN3NSD');</script>
+  <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Generative AI Ethics & Governance — Interactive Lab</title>
+  <meta name="description" content="Interactive guide to Generative AI Ethics & Governance. Explore the 5 pillars, regulatory landscape, and implementation frameworks for responsible AI." />
+  <meta property="og:title" content="Generative AI Ethics & Governance — Interactive Lab" />
+  <meta property="og:description" content="Navigate the complex landscape of responsible AI development with interactive scenarios, practical frameworks, and real-world solutions." />
+  <meta property="og:type" content="website" />
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- BRAND TYPOGRAPHY: DM Sans + DM Serif Display + DM Mono -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- ✅ Stable CDN for React 18 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js" crossorigin></script>
+  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -116,16 +131,28 @@
   </style>
 </head>
 <body class="bg-[#09071a] font-['DM_Sans'] antialiased">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHLN3NSD"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TU_ID_AQUI"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!-- Hero Section -->
   <div class="hero-brand relative overflow-hidden">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10">
-      <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors mb-6 font-mono tracking-wide">
-        ← Back to Portfolio
-      </a>
-      <a href="https://valescabravo.github.io/lab" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors mb-6 font-mono tracking-wide">
-        ← Back to the Lab
-      </a>
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-6">
+        <a href="https://valescabravo.github.io/" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors font-mono tracking-wide">
+          ← Back to Portfolio
+        </a>
+        <span class="text-teal-500/50">/</span>
+        <a href="https://valescabravo.github.io/lab" class="inline-flex items-center text-sm text-teal-300 hover:text-teal-200 transition-colors font-mono tracking-wide">
+          Back to the Lab
+        </a>
+      </div>
       <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm text-sm font-mono mb-6 border border-teal-400/40">
         <span class="w-2 h-2 bg-teal-400 rounded-full mr-2 animate-pulse-slow"></span>
         <span class="text-teal-200">Interactive Learning Experience</span>
@@ -291,9 +318,9 @@
           practice: [ 'Conduct comprehensive bias audits across all demographic groups', 'Implement fairness constraints during model training', 'Establish diverse review committees', 'Create continuous monitoring systems for bias drift' ],
           tools: [ 'Fairlearn & AIF360', 'What-If Tool', 'Model Cards', 'A/B testing for fairness validation' ] },
         { k: 'privacy', title: 'Privacy & Data Protection', emoji: '🔒', desc: 'Safeguard personal data throughout the AI lifecycle',
-          scenario: 'A chatbot inadvertently memorizes and reproduces personal information from training data, violating GDPR and exposing customer details.',
+          scenario: 'A chatbot inadvertently memorises and reproduces personal information from training data, violating GDPR and exposing customer details.',
           practice: [ 'Privacy-by-design', 'Differential privacy techniques', 'Conduct Privacy Impact Assessments', 'Data retention policies' ],
-          tools: [ 'Differential Privacy libraries', 'Anonymization tools (ARX)', 'Consent management platforms' ] },
+          tools: [ 'Differential Privacy libraries', 'Anonymisation tools (ARX)', 'Consent management platforms' ] },
         { k: 'transparency', title: 'Transparency & Explainability', emoji: '🔍', desc: 'Ensure AI decisions are understandable and accountable',
           scenario: 'A loan approval AI denies applications without explanation, facing regulatory scrutiny for lack of transparency.',
           practice: [ 'Model documentation', 'Explainability methods', 'Accessible explanations for users', 'Audit trails' ],
@@ -302,18 +329,18 @@
           scenario: 'An autonomous system makes dangerous decisions when encountering edge cases not covered in training.',
           practice: [ 'Adversarial testing', 'Fail-safe mechanisms', 'Red-team exercises', 'Incident response' ],
           tools: [ 'Foolbox, CleverHans', 'Model validation', 'Anomaly detection' ] },
-        { k: 'sustainability', title: 'Environmental Impact', emoji: '🌱', desc: 'Minimize carbon footprint and resource consumption',
+        { k: 'sustainability', title: 'Environmental Impact', emoji: '🌱', desc: 'Minimise carbon footprint and resource consumption',
           scenario: 'Training large language models generates massive carbon emissions, conflicting with corporate sustainability goals.',
-          practice: [ 'Optimize architectures', 'Renewable energy infrastructure', 'Carbon tracking', 'Lifecycle impact planning' ],
+          practice: [ 'Optimise architectures', 'Renewable energy infrastructure', 'Carbon tracking', 'Lifecycle impact planning' ],
           tools: [ 'CodeCarbon', 'Green AI frameworks', 'Model compression toolkits' ] }
       ];
 
       const frameworkSteps = [
-        { k: 'org', title: 'Organization', emoji: '👥', subtitle: 'Governance Structure', desc: 'Establish clear accountability and decision-making structures.',
+        { k: 'org', title: 'Organisation', emoji: '👥', subtitle: 'Governance Structure', desc: 'Establish clear accountability and decision-making structures.',
           practice: [ 'Form AI Ethics Committee', 'Assign AI ethics champions', 'Escalation paths', 'Regular ethics reviews' ],
           tips: [ 'Include external advisors', 'Rotate membership', 'Document decisions', 'Tie ethics to KPIs' ] },
         { k: 'process', title: 'Processes', emoji: '🔄', subtitle: 'Lifecycle Management', desc: 'Embed ethics throughout the AI lifecycle.',
-          practice: [ 'Standardize AI intake with risk assessment', 'Stage gates', 'Monitoring and incident response', 'Feedback loops' ],
+          practice: [ 'Standardise AI intake with risk assessment', 'Stage gates', 'Monitoring and incident response', 'Feedback loops' ],
           tips: [ 'Align with SDLC', 'Automate compliance', 'Regular audits', 'Train teams' ] },
         { k: 'technology', title: 'Technology', emoji: '⚙️', subtitle: 'Technical Infrastructure', desc: 'Deploy tools for ethical AI at scale.',
           practice: [ 'Model registries with ethics metadata', 'Automated bias monitoring', 'Data lineage systems', 'Ethics dashboards' ],
@@ -330,7 +357,7 @@
       const regulations = [
         { title: 'EU AI Act (Reg. 2024/1689)', desc: 'Risk-based regulation. Prohibitions active since Feb 2025. High-risk rules apply 2 August 2026.', link: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng', status: 'In Force', color: 'bg-teal-600' },
         { title: 'Ireland: AI Bill 2026', desc: 'Creates Oifig Intleachta Shaorga na hÉireann as central coordinator, operational by 2 Aug 2026.', link: 'https://enterprise.gov.ie/en/legislation/general-scheme-of-the-regulation-of-artificial-intelligence-bill-2026.html', status: 'In Preparation', color: 'bg-[#1d085e]' },
-        { title: 'NIST AI RMF', desc: 'Globally recognized framework for managing AI risks.', link: 'https://www.nist.gov/itl/ai-risk-management-framework', status: 'Framework', color: 'bg-teal-500' },
+        { title: 'NIST AI RMF', desc: 'Globally recognised framework for managing AI risks.', link: 'https://www.nist.gov/itl/ai-risk-management-framework', status: 'Framework', color: 'bg-teal-500' },
         { title: 'Irish DPC — GDPR & AI', desc: 'Lead authority for Meta, Google, LinkedIn. Active in AI investigations.', link: 'https://www.dataprotection.ie/en', status: 'Enforcement', color: 'bg-emerald-700' }
       ];
 
@@ -346,7 +373,7 @@
             </div>
             <div className="grid lg:grid-cols-2 gap-10 items-start">
               <div>
-                <p className="text-lg text-gray-200 mb-6">Generative AI delivers unprecedented value but introduces complex ethical challenges. Organizations need systematic approaches to balance <strong className="text-teal-300">innovation velocity</strong> with <strong className="text-teal-300">responsible deployment</strong>.</p>
+                <p className="text-lg text-gray-200 mb-6">Generative AI delivers unprecedented value but introduces complex ethical challenges. Organisations need systematic approaches to balance <strong className="text-teal-300">innovation velocity</strong> with <strong className="text-teal-300">responsible deployment</strong>.</p>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3 p-3 bg-red-900/20 rounded-lg border border-red-500/30"><div className="w-8 h-8 bg-red-800/40 rounded-full flex items-center justify-center">⚠️</div><span className="text-gray-200">Bias can perpetuate discrimination</span></div>
                   <div className="flex items-center space-x-3 p-3 bg-amber-900/20 rounded-lg border border-amber-500/30"><div className="w-8 h-8 bg-amber-800/40 rounded-full flex items-center justify-center">🔓</div><span className="text-gray-200">Privacy violations risk regulatory action</span></div>
@@ -395,7 +422,9 @@
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+    // ✅ Correct React 18 rendering
+    const root = ReactDOM.createRoot(document.getElementById('app'));
+    root.render(<App />);
   </script>
 </body>
 </html>
